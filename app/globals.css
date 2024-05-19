@@ -2,32 +2,79 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+body{
+  background: #28292D;
+  color: #fff;
+  padding-top: 1%;
+  /* padding: 0 15% 0 15%; */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+.container{
+  padding: 50px;
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+.posteven{
+  width: 100%;
+  height: 300px;
+  border-radius: 5px;
+  background: #28292D;
+  color: #fff;
+  padding: 0 18% 0 18%;
+  display: flex;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+.posteven h2 {
+    margin-bottom: 20px;
+    font-style: italic;
+    font-size: 32px;
+    text-align: right;
+    padding-right: 5%;
+    font-weight: 200;
+}
+
+.posteven p {
+    margin-bottom: 10px;
+    font-style: italic;
+    font-size: 20px;
+    text-align: right;
+    height: auto;
+    font-weight: 100;
+}
+
+.posteven a {
+  color: #283c44;
+}
+
+
+.postodd{
+  width: 100%;
+  height: 300px;
+  border-radius: 5px;
+  background: #fff;
+  color: #28292D;
+  padding: 0 18% 0 18%;
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.postodd h2 {
+    margin-bottom: 20px;
+    font-style: italic;
+    font-size: 32px;
+    text-align: left;
+    padding-left: 5%;
+    font-weight: 300;
+}
+
+.postodd p {
+  margin-bottom: 10px;
+  font-style: italic;
+  font-size: 20px;
+  text-align: left;
+  height: auto;
+  font-weight: 200;
+}
+
+.postodd a {
+  color: #eeeeee;
 }
