@@ -1,5 +1,4 @@
-import Image from "next/image";
-import prisma from "../lib/prisma";
+import prisma from "../../lib/prisma";
 
 export default async function Home() {
   const posts = await prisma.recipes.findMany();
