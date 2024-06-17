@@ -1,27 +1,24 @@
-import prisma from '../../../lib/prisma';
+// app/api/recipes/route.js
+
 import { NextResponse } from 'next/server';
+import prisma from '../../../lib/prisma';
 
-export async function POST(req) {
-  try {
-    const { title, body, steps } = await req.json();
+export async function POST(request) {
+  const data = await request.json();
+  const { title, body, steps } = data;
 
-    const recipe = await prisma.recipe.create({
-      data: {
-        title,
-        body,
-        steps: {
-          create: steps.map((step, index) => ({
-            number: index + 1,
-            description: step.description,
-            imageUrl: step.imageUrl
-          }))
-        }
-      }
-    });
+  const recipe = await prisma.recipe.create({
+    data: {
+      title,
+      body,
+      steps: {
+        create: steps.map(step => ({
+          description: step.description,
+          imageUrl: step.imageUrl,
+        })),
+      },
+    },
+  });
 
-    return NextResponse.json(recipe);
-  } catch (error) {
-    console.error(error);
-    return NextResponse.json({ error: 'Error saving recipe' }, { status: 500 });
-  }
+  return NextResponse.json(recipe);
 }

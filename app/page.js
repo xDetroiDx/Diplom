@@ -2,7 +2,11 @@ import Image from "next/image";
 import prisma from "../lib/prisma";
 
 export default async function Home() {
-  const posts = await prisma.recipes.findMany();
+  const posts = await prisma.recipe.findMany({
+    orderBy: {
+      id: 'desc', // Сортировка по полю id по убыванию
+    },
+  });
 
   return (
     <div>
@@ -15,8 +19,15 @@ export default async function Home() {
             className={`post ${index % 2 === 0 ? "posteven" : "postodd"} w-full`}
           >
             <div className="flex w-1/2 items-center justify-center">
-              <Image src="/image/imageVK.svg" width={70} height={70} alt="VK" />
-              <Image src="/image/imageTG.svg" width={70} height={70} alt="TG" />
+              {/* Здесь формируем путь к изображению */}
+              {el.imageUrl && (
+                <Image
+                  src={`/uploads/${el.imageUrl}`}  // Путь к изображению
+                  width={400}
+                  height={400}
+                  alt={el.title}  // Замените на подходящий текст
+                />
+              )}
             </div>
             <div className="flex flex-col w-1/2 justify-center">
               <h2>{el.title}</h2>

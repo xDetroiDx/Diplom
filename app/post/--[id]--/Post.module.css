@@ -1,0 +1,21 @@
+/* my-app/app/post/[id]/Post.module.css */
+.postContainer {
+    padding: 20px;
+    background: #fff;
+    color: #000;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    max-width: 800px;
+    margin: 20px auto;
+  }
+  
+  .postContainer h1 {
+    font-size: 2em;
+    margin-bottom: 0.5em;
+  }
+  
+  .postContainer p {
+    font-size: 1.2em;
+    line-height: 1.6;
+  }
+  
