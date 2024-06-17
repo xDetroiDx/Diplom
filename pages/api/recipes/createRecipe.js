@@ -57,6 +57,7 @@ const handler = async (req, res) => {
       });
 
       const stepsData = [];
+      const ingredientsData = [];
 
       Object.keys(fields).forEach((key) => {
         if (key.startsWith('steps[') && key.endsWith('][description]')) {
@@ -67,7 +68,7 @@ const handler = async (req, res) => {
           if (files[stepFileKey]) {
             const stepFile = Array.isArray(files[stepFileKey]) ? files[stepFileKey][0] : files[stepFileKey];
             console.log('Processing step file:', stepFile);
-
+          
             const stepFileName = `${Date.now()}-${stepFile.originalFilename}`;
             const newStepFilePath = path.join(uploadDir, stepFileName);
             fs.renameSync(stepFile.filepath, newStepFilePath);
@@ -83,6 +84,16 @@ const handler = async (req, res) => {
               recipeId: recipe.id,
             });
           }
+        } else if (key.startsWith('ingredients[') && key.endsWith('][name]')) {
+          const index = key.match(/\d+/)[0];
+          const name = Array.isArray(fields[key]) ? fields[key][0] : fields[key];
+          const quantityKey = `ingredients[${index}][quantity]`;
+          const quantity = Array.isArray(fields[quantityKey]) ? fields[quantityKey][0] : fields[quantityKey];
+          ingredientsData.push({
+            name,
+            quantity,
+            recipeId: recipe.id,
+          });
         }
       });
 
@@ -92,7 +103,13 @@ const handler = async (req, res) => {
         });
       }
 
-      console.log('Recipe and steps created successfully');
+      if (ingredientsData.length > 0) {
+        await prisma.ingredient.createMany({
+          data: ingredientsData,
+        });
+      }
+
+      console.log('Recipe, steps, and ingredients created successfully');
       return res.status(201).json({ message: 'Recipe created successfully' });
     } catch (error) {
       console.error('Error saving recipe:', error);

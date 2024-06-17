@@ -8,18 +8,26 @@ datasource db {
 }
 
 model Recipe {
-  id       Int      @id @default(autoincrement())
-  title    String
-  body     String   @db.Text
-  imageUrl String?
-  steps    Step[]
+  id          Int          @id @default(autoincrement())
+  title       String
+  body        String       @db.Text
+  imageUrl    String?
+  ingredients Ingredient[] // Связь с ингредиентами
+  steps       Step[]       // Связь со Step
+}
+
+model Ingredient {
+  id        Int     @id @default(autoincrement())
+  recipeId  Int
+  recipe    Recipe  @relation(fields: [recipeId], references: [id])
+  name      String
+  quantity  String
 }
 
 model Step {
-  id        Int      @id @default(autoincrement())
-  description String  @db.Text
-  imageUrl   String?
-  recipe   Recipe   @relation(fields: [recipeId], references: [id])
-  recipeId Int
+  id          Int      @id @default(autoincrement())
+  description String   @db.Text
+  imageUrl    String?
+  recipe      Recipe   @relation(fields: [recipeId], references: [id])
+  recipeId    Int
 }
-
