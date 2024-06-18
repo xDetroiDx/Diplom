@@ -1,0 +1,34 @@
+version: "3"
+services:
+  db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: 1324
+      MYSQL_DATABASE: diplom
+      MYSQL_USER: alexander
+      MYSQL_PASSWORD: 1324
+    networks:
+      - app-network
+
+  app:
+    build: 
+      dockerfile: ./Docker/Dockerfile
+      context: ../
+    ports:
+      - "80:3000"
+    depends_on:
+      - db
+    environment:
+      PMA_HOST: db
+      DATABASE_URL: "mysql://root:1324@db:3306/diplom"
+    command: >
+      sh -c "
+        sleep 5;
+        npx prisma migrate deploy
+        npm run dev
+      "
+    networks:
+      - app-network
+
+networks:
+  app-network:
